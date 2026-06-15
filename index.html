@@ -3,20 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>جنة التلاوة | قرآن،  </title>
+    <title>جنة التلاوة</title>
     
-    <!-- Favicon - Quran with Rehal (Moshaf) Icon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230F172A'/%3E%3Cpath d='M25 25 L75 25 L75 75 L25 75 Z' fill='none' stroke='%2338BDF8' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M35 35 L65 35 M35 45 L65 45 M35 55 L55 55' stroke='%2338BDF8' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M50 75 L50 85 M35 85 L65 85' stroke='%2338BDF8' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='50' cy='80' r='3' fill='%2338BDF8'/%3E%3C/svg%3E">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
@@ -120,45 +116,49 @@
 </head>
 <body class="text-gray-200 flex flex-col min-h-screen bg-dark-900">
 
-    <!-- Navbar -->
-    <nav class="bg-dark-800/80 backdrop-blur-md text-white shadow-xl sticky top-0 z-50 border-b border-accent-400/20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20 items-center">
-                <div class="flex items-center cursor-pointer" onclick="switchTab('home')">
-                    <i class="fa-solid fa-kaaba text-accent-400 text-3xl ml-3"></i>
-                    <div>
-                        <h1 class="font-bold text-2xl tracking-wide text-accent-400 font-amiri">جنة التلاوة</h1>
-                        <p class="text-[10px] text-primary-200 uppercase tracking-widest"> موقع إسلامي </p>
+    <div class="sticky top-4 z-50 px-4 sm:px-6 w-full max-w-5xl mx-auto mb-8">
+        <nav class="bg-[#0B1120] text-gray-300 shadow-[0_8px_30px_rgba(0,0,0,0.4)] rounded-full border border-gray-800/60 px-6 py-3 flex justify-between items-center transition-all">
+            
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-3">
+                    <div onclick="switchTab('home')" class="cursor-pointer w-10 h-10 rounded-full bg-accent-400 flex items-center justify-center text-dark-900 shadow-[0_0_15px_rgba(56,189,248,0.2)] hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-kaaba text-xl"></i>
                     </div>
+                    <a href="https://www.facebook.com/JannatA1tilawah" target="_blank" title="زيارة صفحتنا على فيسبوك" class="hover:opacity-80 transition-opacity">
+                        <h1 class="font-bold text-xl tracking-wide text-accent-400 font-amiri mt-1">جنة التلاوة</h1>
+                    </a>
                 </div>
-                
-                <div class="hidden md:flex space-x-reverse space-x-6">
-                    <button onclick="switchTab('home')" class="nav-btn font-semibold hover:text-accent-400 transition pb-1 border-b-2 border-transparent" data-target="home">الرئيسية</button>
-                    <button onclick="switchTab('read')" class="nav-btn font-semibold hover:text-accent-400 transition pb-1 border-b-2 border-transparent" data-target="read">المصحف</button>
-                    <button onclick="switchTab('listen')" class="nav-btn font-semibold hover:text-accent-400 transition pb-1 border-b-2 border-transparent" data-target="listen">التلاوات</button>
-                    <button onclick="switchTab('hadith')" class="nav-btn font-semibold hover:text-accent-400 transition pb-1 border-b-2 border-transparent" data-target="hadith">الأحاديث</button>
-                </div>
-                
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-white hover:text-accent-400 focus:outline-none p-2">
-                        <i class="fa-solid fa-bars text-2xl"></i>
-                    </button>
-                </div>
+                <div class="h-6 w-[1px] bg-gray-700 hidden md:block"></div>
             </div>
+            
+            <div class="hidden md:flex flex-grow justify-evenly items-center mt-1 px-4 lg:px-8">
+                <button onclick="switchTab('home')" class="nav-btn font-semibold text-gray-400 hover:text-accent-400 transition pb-2 border-b-2 border-transparent" data-target="home">الرئيسية</button>
+                <button onclick="switchTab('read')" class="nav-btn font-semibold text-gray-400 hover:text-accent-400 transition pb-2 border-b-2 border-transparent" data-target="read">المصحف</button>
+                <button onclick="switchTab('listen')" class="nav-btn font-semibold text-gray-400 hover:text-accent-400 transition pb-2 border-b-2 border-transparent" data-target="listen">الاستماع</button>
+                <button onclick="switchTab('hadith')" class="nav-btn font-semibold text-gray-400 hover:text-accent-400 transition pb-2 border-b-2 border-transparent" data-target="hadith">الأحاديث</button>
+            </div>
+            
+            <div class="md:hidden flex items-center">
+                <button id="mobile-menu-btn" class="text-gray-300 hover:text-accent-400 focus:outline-none p-2 transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="hidden absolute top-20 left-4 right-4 bg-[#0B1120] rounded-2xl border border-gray-800 shadow-2xl p-4 md:hidden z-40">
+            <button onclick="switchTab('home')" class="block w-full text-right py-3 border-b border-gray-800 text-gray-300 hover:text-accent-400 font-semibold transition-colors">الرئيسية</button>
+            <button onclick="switchTab('read')" class="block w-full text-right py-3 border-b border-gray-800 text-gray-300 hover:text-accent-400 font-semibold transition-colors">المصحف</button>
+            <button onclick="switchTab('listen')" class="block w-full text-right py-3 border-b border-gray-800 text-gray-300 hover:text-accent-400 font-semibold transition-colors">الاستماع</button>
+            <button onclick="switchTab('hadith')" class="block w-full text-right py-3 text-gray-300 hover:text-accent-400 font-semibold transition-colors">الأحاديث</button>
+            <a href="https://www.facebook.com/JannatA1tilawah" target="_blank" class="block w-full text-right py-3 mt-2 border-t border-gray-700 text-accent-400 font-bold transition-colors">
+                <i class="fa-brands fa-facebook ml-2"></i> تابعنا على فيسبوك
+            </a>
         </div>
-        
-        <div id="mobile-menu" class="hidden md:hidden bg-dark-800/95 backdrop-blur-md pb-4 px-4 shadow-inner border-t border-primary-700">
-            <button onclick="switchTab('home')" class="block w-full text-right py-3 border-b border-primary-700 hover:text-accent-400 font-semibold">الرئيسية</button>
-            <button onclick="switchTab('read')" class="block w-full text-right py-3 border-b border-primary-700 hover:text-accent-400 font-semibold">المصحف قراءة</button>
-            <button onclick="switchTab('listen')" class="block w-full text-right py-3 border-b border-primary-700 hover:text-accent-400 font-semibold">استماع للشيوخ</button>
-            <button onclick="switchTab('hadith')" class="block w-full text-right py-3 hover:text-accent-400 font-semibold">الأحاديث النبوية</button>
-        </div>
-    </nav>
+    </div>
 
     <main class="flex-grow w-full relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 w-full">
             
-            <!-- Tab: Home -->
             <section id="tab-home" class="tab-content text-center py-6">
                 <div class="bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800 rounded-3xl p-8 md:p-12 text-white shadow-2xl mb-12 relative overflow-hidden border border-accent-400/30 neon-border">
                     <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
@@ -208,7 +208,6 @@
                 </div>
             </section>
 
-            <!-- Tab: Read Quran -->
             <section id="tab-read" class="tab-content hide">
                 <div id="read-layout" class="flex flex-col lg:flex-row gap-6 view-list">
                     <div id="surah-sidebar" class="w-full lg:w-1/4 glass-card rounded-2xl shadow-md overflow-hidden flex flex-col h-[75vh] lg:h-[80vh] transition-all duration-300">
@@ -257,7 +256,6 @@
                 </div>
             </section>
 
-            <!-- Tab: Listen to Reciters -->
             <section id="tab-listen" class="tab-content hide">
                 <div class="glass-card rounded-2xl shadow-md p-6 mb-8">
                     <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-gray-700 pb-6">
@@ -277,7 +275,6 @@
                 </div>
             </section>
 
-            <!-- Tab: Hadith -->
             <section id="tab-hadith" class="tab-content hide">
                 <div class="glass-card rounded-2xl shadow-md p-6 mb-8">
                     <h2 class="text-2xl font-bold text-accent-400 mb-2 border-r-4 border-accent-500 pr-3">الأحاديث النبوية الشريفة</h2>
@@ -290,7 +287,6 @@
         </div>
     </main>
 
-    <!-- Sticky Audio Player -->
     <div id="audio-player-container" class="fixed bottom-0 left-0 right-0 bg-dark-800/90 backdrop-blur-lg text-white shadow-[0_-10px_40px_rgba(0,0,0,0.5)] transform translate-y-full transition-transform duration-500 z-50 rounded-t-3xl border-t border-accent-400/40">
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-4 w-full md:w-1/3">
@@ -354,20 +350,23 @@
         ];
 
         function switchTab(tabId) {
+            // تحديث ألوان الروابط العلوية
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 if(btn.dataset.target === tabId) {
-                    btn.classList.add('text-accent-400', 'border-accent-400');
-                    btn.classList.remove('border-transparent');
+                    btn.classList.add('text-accent-400', 'border-accent-400'); 
+                    btn.classList.remove('text-gray-400', 'border-transparent');
                 } else {
                     btn.classList.remove('text-accent-400', 'border-accent-400');
-                    btn.classList.add('border-transparent');
+                    btn.classList.add('text-gray-400', 'border-transparent'); 
                 }
             });
 
+            // إخفاء جميع الأقسام وإظهار القسم المطلوب
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hide'));
             document.getElementById(`tab-${tabId}`).classList.remove('hide');
             document.getElementById('mobile-menu').classList.add('hidden');
 
+            // تحميل البيانات إذا لم تكن محملة
             if(tabId === 'read') {
                 document.getElementById('read-layout').className = 'flex flex-col lg:flex-row gap-6 view-list';
                 if(surahsData.length === 0) fetchSurahList();
