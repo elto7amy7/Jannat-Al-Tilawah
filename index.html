@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>جنة التلاوة </title>
+    <title>جنة التلاوة | قرآن،  </title>
     
-    <!-- Favicon (Kaaba Icon) -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕋</text></svg>">
+    <!-- Favicon - Quran with Rehal (Moshaf) Icon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230F172A'/%3E%3Cpath d='M25 25 L75 25 L75 75 L25 75 Z' fill='none' stroke='%2338BDF8' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M35 35 L65 35 M35 45 L65 45 M35 55 L55 55' stroke='%2338BDF8' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M50 75 L50 85 M35 85 L65 85' stroke='%2338BDF8' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='50' cy='80' r='3' fill='%2338BDF8'/%3E%3C/svg%3E">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Cairo for UI, Amiri for Quran Text -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome for Icons -->
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
@@ -37,7 +37,7 @@
                             900: '#0c4a6e',
                         },
                         dark: {
-                            900: '#0F172A', // Slate-900
+                            900: '#0F172A',
                             800: '#1E293B',
                             700: '#334155',
                         },
@@ -52,7 +52,7 @@
         }
     </script>
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #0F172A; color: #F1F5F9; } /* Dark background for digital look */
+        body { font-family: 'Cairo', sans-serif; background-color: #0F172A; color: #F1F5F9; }
         .quran-text { 
             font-family: 'Amiri', serif; 
             line-height: 2.5; 
@@ -76,7 +76,6 @@
             font-weight: bold;
         }
         
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px;}
         ::-webkit-scrollbar-track { background: #1E293B; border-radius: 10px; }
         ::-webkit-scrollbar-thumb { background: #38BDF8; border-radius: 10px; }
@@ -97,7 +96,6 @@
         .tab-content { animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Glassmorphism Effect */
         .glass-card {
             background: rgba(30, 41, 59, 0.6);
             backdrop-filter: blur(12px);
@@ -113,7 +111,6 @@
             box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
         }
 
-        /* Responsive Mobile Layout For Read Tab */
         @media (max-width: 1023px) {
             #read-layout.view-list #reading-area { display: none !important; }
             #read-layout.view-reading #surah-sidebar { display: none !important; }
@@ -127,7 +124,6 @@
     <nav class="bg-dark-800/80 backdrop-blur-md text-white shadow-xl sticky top-0 z-50 border-b border-accent-400/20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
-                <!-- Logo -->
                 <div class="flex items-center cursor-pointer" onclick="switchTab('home')">
                     <i class="fa-solid fa-kaaba text-accent-400 text-3xl ml-3"></i>
                     <div>
@@ -136,7 +132,6 @@
                     </div>
                 </div>
                 
-                <!-- Desktop Menu -->
                 <div class="hidden md:flex space-x-reverse space-x-6">
                     <button onclick="switchTab('home')" class="nav-btn font-semibold hover:text-accent-400 transition pb-1 border-b-2 border-transparent" data-target="home">الرئيسية</button>
                     <button onclick="switchTab('read')" class="nav-btn font-semibold hover:text-accent-400 transition pb-1 border-b-2 border-transparent" data-target="read">المصحف</button>
@@ -144,7 +139,6 @@
                     <button onclick="switchTab('hadith')" class="nav-btn font-semibold hover:text-accent-400 transition pb-1 border-b-2 border-transparent" data-target="hadith">الأحاديث</button>
                 </div>
                 
-                <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center">
                     <button id="mobile-menu-btn" class="text-white hover:text-accent-400 focus:outline-none p-2">
                         <i class="fa-solid fa-bars text-2xl"></i>
@@ -153,7 +147,6 @@
             </div>
         </div>
         
-        <!-- Mobile Menu Panel -->
         <div id="mobile-menu" class="hidden md:hidden bg-dark-800/95 backdrop-blur-md pb-4 px-4 shadow-inner border-t border-primary-700">
             <button onclick="switchTab('home')" class="block w-full text-right py-3 border-b border-primary-700 hover:text-accent-400 font-semibold">الرئيسية</button>
             <button onclick="switchTab('read')" class="block w-full text-right py-3 border-b border-primary-700 hover:text-accent-400 font-semibold">المصحف قراءة</button>
@@ -162,13 +155,11 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="flex-grow w-full relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
             
             <!-- Tab: Home -->
             <section id="tab-home" class="tab-content text-center py-6">
-                <!-- Hero Section -->
                 <div class="bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800 rounded-3xl p-8 md:p-12 text-white shadow-2xl mb-12 relative overflow-hidden border border-accent-400/30 neon-border">
                     <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
                     <div class="absolute top-0 right-0 opacity-20 text-9xl transform translate-x-1/4 -translate-y-1/4 text-accent-400">
@@ -190,7 +181,6 @@
                     </div>
                 </div>
 
-                <!-- Features Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
                     <div onclick="switchTab('read')" class="glass-card p-8 hover:shadow-xl hover:-translate-y-1 transition cursor-pointer group">
                         <div class="w-16 h-16 mx-auto bg-dark-800 rounded-full flex items-center justify-center text-accent-400 text-3xl mb-4 group-hover:bg-accent-500 group-hover:text-white transition-colors">
@@ -221,7 +211,6 @@
             <!-- Tab: Read Quran -->
             <section id="tab-read" class="tab-content hide">
                 <div id="read-layout" class="flex flex-col lg:flex-row gap-6 view-list">
-                    <!-- Sidebar: Surah List -->
                     <div id="surah-sidebar" class="w-full lg:w-1/4 glass-card rounded-2xl shadow-md overflow-hidden flex flex-col h-[75vh] lg:h-[80vh] transition-all duration-300">
                         <div class="p-4 bg-dark-800/80 text-white flex justify-between items-center shadow-md z-10 border-b border-accent-400/20">
                             <h3 class="font-bold text-lg"><i class="fa-solid fa-list-ul ml-2 text-accent-400"></i> فهرس السور</h3>
@@ -237,10 +226,8 @@
                         </div>
                     </div>
 
-                    <!-- Main: Reading Area -->
                     <div id="reading-area" class="w-full lg:w-3/4 hidden lg:flex glass-card rounded-2xl shadow-md flex-col relative min-h-[75vh] lg:h-[80vh] transition-all duration-300">
                         <div id="read-header" class="bg-dark-800/60 border-b border-accent-400/20 p-4 lg:p-6 text-center sticky top-0 z-10 hidden shadow-sm rounded-t-2xl flex-col sm:flex-row items-center justify-between gap-4">
-                            <!-- Mobile Back Button -->
                             <button onclick="backToSurahList()" class="lg:hidden bg-dark-700 text-accent-400 hover:bg-dark-600 border border-accent-400/30 font-bold py-2 px-4 rounded-xl shadow-sm transition flex items-center whitespace-nowrap">
                                 <i class="fa-solid fa-arrow-right ml-2"></i> الفهرس
                             </button>
@@ -286,9 +273,7 @@
                     
                     <div class="loader" id="reciters-loader"></div>
                     
-                    <div id="reciters-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        <!-- Reciters injected here -->
-                    </div>
+                    <div id="reciters-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
                 </div>
             </section>
 
@@ -298,9 +283,7 @@
                     <h2 class="text-2xl font-bold text-accent-400 mb-2 border-r-4 border-accent-500 pr-3">الأحاديث النبوية الشريفة</h2>
                     <p class="text-gray-400 text-sm mb-8 pr-4">مقتطفات من صحيح السنة وجوامع الكلم.</p>
                     
-                    <div id="hadith-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Hadiths will be injected by JS -->
-                    </div>
+                    <div id="hadith-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
                 </div>
             </section>
 
@@ -310,8 +293,6 @@
     <!-- Sticky Audio Player -->
     <div id="audio-player-container" class="fixed bottom-0 left-0 right-0 bg-dark-800/90 backdrop-blur-lg text-white shadow-[0_-10px_40px_rgba(0,0,0,0.5)] transform translate-y-full transition-transform duration-500 z-50 rounded-t-3xl border-t border-accent-400/40">
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
-            
-            <!-- Player Info -->
             <div class="flex items-center gap-4 w-full md:w-1/3">
                 <div class="bg-dark-900 p-4 rounded-full text-accent-400 border border-accent-400/30 shadow-inner">
                     <i class="fa-solid fa-headphones-simple text-2xl"></i>
@@ -322,7 +303,6 @@
                 </div>
             </div>
             
-            <!-- Native Audio Controls -->
             <div class="w-full md:w-1/3 flex justify-center items-center">
                 <audio id="main-audio" controls class="w-full max-w-md h-12 outline-none rounded-full bg-dark-900 shadow-md">
                     <source src="" type="audio/mpeg">
@@ -330,7 +310,6 @@
                 </audio>
             </div>
             
-            <!-- Controls & Selector -->
             <div class="w-full md:w-1/3 flex justify-end items-center gap-2 sm:gap-3">
                 <div class="relative w-full md:w-auto flex-grow">
                     <select id="audio-surah-select" class="appearance-none bg-dark-700 text-white border border-gray-600 rounded-xl py-3 px-4 pr-10 focus:outline-none focus:ring-2 focus:ring-accent-400 text-sm font-semibold w-full shadow-inner cursor-pointer transition hover:bg-dark-600">
@@ -347,7 +326,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="bg-dark-800/50 text-gray-400 py-6 text-center mt-auto border-t border-gray-800/50 mt-12">
         <div class="max-w-7xl mx-auto px-4">
             <h3 class="text-white font-amiri text-xl mb-2 text-accent-400">جنة التلاوة | النسخة الرقمية</h3>
@@ -362,7 +340,6 @@
         let currentAudioReciter = null;
         let surahNamesArabic = []; 
 
-        // Static Hadith Data
         const ahadithData = [
             { text: "عَنْ عُمَرَ بْنِ الْخَطَّابِ رَضِيَ اللَّهُ عَنْهُ قَالَ: سَمِعْتُ رَسُولَ اللَّهِ ﷺ يَقُولُ: «إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى...»", narrator: "رواه البخاري ومسلم" },
             { text: "عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ، أَنَّ رَسُولَ اللَّهِ ﷺ قَالَ: «مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ، وَمَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيُكْرِمْ جَارَهُ...»", narrator: "رواه البخاري ومسلم" },
@@ -376,7 +353,6 @@
             { text: "قَالَ رَسُولُ اللَّهِ ﷺ: «الدِّينُ النَّصِيحَةُ» قُلْنَا: لِمَنْ؟ قَالَ: «لِلَّهِ وَلِكِتَابِهِ وَلِرَسُولِهِ وَلأَئِمَّةِ الْمُسْلِمِينَ وَعَامَّتِهِمْ».", narrator: "رواه مسلم" }
         ];
 
-        // --- UI Tab Switching and Navigation ---
         function switchTab(tabId) {
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 if(btn.dataset.target === tabId) {
@@ -414,7 +390,6 @@
             return text.replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/[\u064B-\u065F\u0670]/g, '').toLowerCase();
         }
 
-        // --- Quran API Logic ---
         async function fetchSurahList() {
             try {
                 const response = await fetch('https://api.alquran.cloud/v1/surah');
@@ -434,7 +409,7 @@
             container.innerHTML = '';
             surahs.forEach(surah => {
                 const btn = document.createElement('button');
-                btn.className = 'w-full text-right p-4 hover:bg-dark-700 rounded-2xl transition border border-gray-700 hover:border-accent-400 flex items-center justify-between group focus:bg-primary-100 focus:outline-none mb-2 bg-dark-800/40 shadow-sm';
+                btn.className = 'w-full text-right p-4 hover:bg-dark-700 rounded-2xl transition border border-gray-700 hover:border-accent-400 flex items-center justify-between group focus:outline-none mb-2 bg-dark-800/40 shadow-sm';
                 btn.onclick = () => loadSurahText(surah.number, surah.name, surah.revelationType, surah.numberOfAyahs);
                 btn.innerHTML = `
                     <div class="flex items-center">
@@ -489,7 +464,6 @@
             document.getElementById('read-layout').className = 'flex flex-col lg:flex-row gap-6 view-list';
         }
 
-        // --- Reciters API Logic ---
         async function fetchRecitersList() {
             try {
                 const response = await fetch('https://www.mp3quran.net/api/v3/reciters?language=ar');
@@ -536,7 +510,6 @@
             renderRecitersList(recitersData.filter(r => normalizeArabic(r.name).includes(term)));
         });
 
-        // --- Audio Player Logic (ALL SURAH WORKING FIX) ---
         function populateAudioSurahDropdown() {
             const select = document.getElementById('audio-surah-select');
             select.innerHTML = '<option value="">اختر السورة للتشغيل...</option>';
@@ -545,13 +518,11 @@
             });
         }
 
-        // Fallback server URLs in case the reciter's server doesn't have the surah
         const FALLBACK_SERVERS = [
             "https://server11.mp3quran.net/ahmed_ibrahim/",
             "https://server11.mp3quran.net/maher/",
             "https://server11.mp3quran.net/yasser/"
         ];
-        let currentFallbackIndex = 0;
 
         function openAudioPlayer(reciter, moshaf) {
             let surahListArray = [];
@@ -559,7 +530,6 @@
                 surahListArray = moshaf.surah_list.split(',').map(id => id.trim());
             }
             
-            // Store the original server and the list
             currentAudioReciter = {
                 name: reciter.name,
                 originalServer: moshaf.server,
@@ -571,7 +541,6 @@
             document.getElementById('player-surah-name').innerText = "اختر السورة للاستماع";
             
             const select = document.getElementById('audio-surah-select');
-            // Enable all options - we will force play with fallback
             for (let i = 0; i < select.options.length; i++) {
                 const opt = select.options[i];
                 if (opt.value === "") continue;
@@ -586,7 +555,6 @@
 
             document.getElementById('audio-player-container').classList.remove('translate-y-full');
             
-            // Auto-select first surah (1. الفاتحة)
             let firstSurah = "1";
             if(surahNamesArabic.find(s => s.id == 1)) {
                 select.value = firstSurah;
@@ -619,8 +587,7 @@
             const audioEl = document.getElementById('main-audio');
             const primarySrc = `${serverUrl}${formattedId}.mp3`;
             
-            // Try to play the audio, if it fails (404 or error), try fallback servers
-            const tryPlay = async (url, isFallback = false) => {
+            const tryPlay = async (url) => {
                 return new Promise((resolve, reject) => {
                     audioEl.src = url;
                     audioEl.load();
@@ -636,7 +603,6 @@
                         resolve();
                     };
                     
-                    // Timeout after 5 seconds
                     setTimeout(() => {
                         audioEl.removeEventListener('error', handleError);
                         reject(new Error('Timeout'));
@@ -651,7 +617,6 @@
             } catch (error) {
                 console.warn(`Primary server failed for surah ${surahId}, trying fallbacks...`);
                 let fallbackSuccess = false;
-                // Try fallback servers (common ones that host all surahs)
                 for (let fallbackUrl of FALLBACK_SERVERS) {
                     try {
                         const testUrl = `${fallbackUrl}${formattedId}.mp3`;
@@ -671,7 +636,6 @@
             }
         }
 
-        // --- Hadith Section Logic ---
         function renderAhadith() {
             const grid = document.getElementById('hadith-grid');
             grid.innerHTML = '';
