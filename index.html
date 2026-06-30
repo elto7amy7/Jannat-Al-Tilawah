@@ -33,6 +33,7 @@
                             900: '#0c4a6e',
                         },
                         dark: {
+                            950: '#090d16',
                             900: '#0F172A',
                             800: '#1E293B',
                             700: '#334155',
@@ -47,6 +48,7 @@
             }
         }
     </script>
+    
     <style>
         body { font-family: 'Cairo', sans-serif; background-color: #0F172A; color: #F1F5F9; }
         .quran-text { 
@@ -100,17 +102,43 @@
         }
 
         .neon-border {
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
             transition: all 0.3s ease;
         }
         .neon-border:hover {
-            box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.35);
         }
 
+        /* Responsive Layout Overrides */
         @media (max-width: 1023px) {
             #read-layout.view-list #reading-area { display: none !important; }
             #read-layout.view-reading #surah-sidebar { display: none !important; }
             #read-layout.view-reading #reading-area { display: flex !important; }
+
+            #playlist-layout.view-list #playlist-player-area { display: none !important; }
+            #playlist-layout.view-playlist #playlist-sidebar-area { display: none !important; }
+            #playlist-layout.view-playlist #playlist-player-area { display: flex !important; }
+        }
+
+        /* Sound Equalizer Animation */
+        .equalizer-bar {
+            width: 4px;
+            height: 15px;
+            background-color: #38BDF8;
+            display: inline-block;
+            border-radius: 2px;
+            margin: 0 2px;
+            transition: height 0.1s ease;
+        }
+        .equalizer-active .equalizer-bar:nth-child(1) { animation: eq 0.8s ease-in-out infinite alternate; }
+        .equalizer-active .equalizer-bar:nth-child(2) { animation: eq 1.2s ease-in-out infinite alternate 0.2s; }
+        .equalizer-active .equalizer-bar:nth-child(3) { animation: eq 0.6s ease-in-out infinite alternate 0.1s; }
+        .equalizer-active .equalizer-bar:nth-child(4) { animation: eq 1.0s ease-in-out infinite alternate 0.3s; }
+        .equalizer-active .equalizer-bar:nth-child(5) { animation: eq 0.7s ease-in-out infinite alternate 0.15s; }
+
+        @keyframes eq {
+            0% { height: 6px; }
+            100% { height: 35px; }
         }
     </style>
 </head>
@@ -128,14 +156,16 @@
                         <h1 class="font-bold text-xl tracking-wide text-accent-400 font-amiri mt-1">جنة التلاوة</h1>
                     </a>
                 </div>
-                <div class="h-6 w-[1px] bg-gray-700 hidden md:block"></div>
+                <div class="h-6 w-[1px] bg-gray-700 hidden lg:block"></div>
             </div>
             
+            <!-- Desktop Navbar Menu -->
             <div class="hidden md:flex flex-grow justify-evenly items-center mt-1 px-4 lg:px-8">
-                <button onclick="switchTab('home')" class="nav-btn font-semibold text-gray-400 hover:text-accent-400 transition pb-2 border-b-2 border-transparent" data-target="home">الرئيسية</button>
-                <button onclick="switchTab('read')" class="nav-btn font-semibold text-gray-400 hover:text-accent-400 transition pb-2 border-b-2 border-transparent" data-target="read">المصحف</button>
-                <button onclick="switchTab('listen')" class="nav-btn font-semibold text-gray-400 hover:text-accent-400 transition pb-2 border-b-2 border-transparent" data-target="listen">الاستماع</button>
-                <button onclick="switchTab('hadith')" class="nav-btn font-semibold text-gray-400 hover:text-accent-400 transition pb-2 border-b-2 border-transparent" data-target="hadith">الأحاديث</button>
+                <button onclick="switchTab('home')" class="nav-btn font-semibold text-gray-400 hover:text-accent-400 transition pb-1 border-b-2 border-transparent" data-target="home">الرئيسية</button>
+                <button onclick="switchTab('read')" class="nav-btn font-semibold text-gray-400 hover:text-accent-400 transition pb-1 border-b-2 border-transparent" data-target="read">المصحف</button>
+                <button onclick="switchTab('listen')" class="nav-btn font-semibold text-gray-400 hover:text-accent-400 transition pb-1 border-b-2 border-transparent" data-target="listen">الاستماع للقرآن</button>
+                <button onclick="switchTab('hadith')" class="nav-btn font-semibold text-gray-400 hover:text-accent-400 transition pb-1 border-b-2 border-transparent" data-target="hadith">الأحاديث</button>
+                <button onclick="switchTab('faq')" class="nav-btn font-semibold text-gray-400 hover:text-accent-400 transition pb-1 border-b-2 border-transparent" data-target="faq">أسئلة دينية شائعة</button>
             </div>
             
             <div class="md:hidden flex items-center">
@@ -145,12 +175,14 @@
             </div>
         </nav>
 
+        <!-- Mobile Navigation Menu -->
         <div id="mobile-menu" class="hidden absolute top-20 left-4 right-4 bg-[#0B1120] rounded-2xl border border-gray-800 shadow-2xl p-4 md:hidden z-40">
-            <button onclick="switchTab('home')" class="block w-full text-right py-3 border-b border-gray-800 text-gray-300 hover:text-accent-400 font-semibold transition-colors">الرئيسية</button>
-            <button onclick="switchTab('read')" class="block w-full text-right py-3 border-b border-gray-800 text-gray-300 hover:text-accent-400 font-semibold transition-colors">المصحف</button>
-            <button onclick="switchTab('listen')" class="block w-full text-right py-3 border-b border-gray-800 text-gray-300 hover:text-accent-400 font-semibold transition-colors">الاستماع</button>
-            <button onclick="switchTab('hadith')" class="block w-full text-right py-3 text-gray-300 hover:text-accent-400 font-semibold transition-colors">الأحاديث</button>
-            <a href="https://www.facebook.com/JannatA1tilawah" target="_blank" class="block w-full text-right py-3 mt-2 border-t border-gray-700 text-accent-400 font-bold transition-colors">
+            <button onclick="switchTab('home')" class="block w-full text-right py-3 border-b border-gray-800/60 text-gray-300 hover:text-accent-400 font-semibold transition-colors">الرئيسية</button>
+            <button onclick="switchTab('read')" class="block w-full text-right py-3 border-b border-gray-800/60 text-gray-300 hover:text-accent-400 font-semibold transition-colors">المصحف</button>
+            <button onclick="switchTab('listen')" class="block w-full text-right py-3 border-b border-gray-800/60 text-gray-300 hover:text-accent-400 font-semibold transition-colors">الاستماع للقرآن</button>
+            <button onclick="switchTab('hadith')" class="block w-full text-right py-3 border-b border-gray-800/60 text-gray-300 hover:text-accent-400 font-semibold transition-colors">الأحاديث</button>
+            <button onclick="switchTab('faq')" class="block w-full text-right py-3 text-gray-300 hover:text-accent-400 font-semibold transition-colors">الأسئلة الدينية</button>
+            <a href="https://www.facebook.com/JannatA1tilawah" target="_blank" class="block w-full text-right py-3 mt-2 border-t border-gray-800 text-accent-400 font-bold transition-colors">
                 <i class="fa-brands fa-facebook ml-2"></i> تابعنا على فيسبوك
             </a>
         </div>
@@ -159,6 +191,7 @@
     <main class="flex-grow w-full relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 w-full">
             
+            <!-- Home Tab Section -->
             <section id="tab-home" class="tab-content text-center py-6">
                 <div class="bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800 rounded-3xl p-8 md:p-12 text-white shadow-2xl mb-12 relative overflow-hidden border border-accent-400/30 neon-border">
                     <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
@@ -167,49 +200,58 @@
                     </div>
                     <div class="relative z-10">
                         <h2 class="text-4xl md:text-5xl font-bold mb-6 font-amiri leading-loose text-accent-400">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h2>
-                        <p class="text-lg md:text-xl text-primary-100 max-w-3xl mx-auto mb-10 leading-relaxed">
-                            مرحباً بك في موقع "جنة التلاوة" النسخة الرقمية، وجهتك الشاملة لقراءة القرآن الكريم، الاستماع لأعذب التلاوات، ومطالعة صحيح الأحاديث النبوية الشريفة.
+                        <p class="text-lg md:text-xl text-primary-100 max-w-3xl mx-auto mb-10 leading-relaxed font-amiri">
+                            مرحباً بك في موقع "جنة التلاوة" النسخة الرقمية المحدثة، وجهتك الشاملة لتلاوة وتصفح القرآن الكريم، الاستماع لأعذب تلاوات شيوخ الأمة الإسلامية عبر قوائم تشغيل متكاملة، ومطالعة صحيح الأحاديث والأسئلة الدينية الفقهية الهامة.
                         </p>
-                        <div class="flex flex-col sm:flex-row justify-center gap-4">
-                            <button onclick="switchTab('read')" class="bg-accent-500 hover:bg-accent-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105">
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <button onclick="switchTab('read')" class="bg-accent-500 hover:bg-accent-600 text-white font-bold py-3.5 px-8 rounded-full shadow-lg transition transform hover:scale-105">
                                 <i class="fa-solid fa-book-open ml-2"></i> المصحف المكتوب
                             </button>
-                            <button onclick="switchTab('listen')" class="bg-dark-700 hover:bg-dark-600 text-accent-400 font-bold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105 border border-accent-400/50">
-                                <i class="fa-solid fa-headphones ml-2"></i> تلاوات الشيوخ
+                            <button onclick="switchTab('listen')" class="bg-dark-700 hover:bg-dark-600 text-accent-400 font-bold py-3.5 px-8 rounded-full shadow-lg transition transform hover:scale-105 border border-accent-400/50">
+                                <i class="fa-solid fa-headphones-simple ml-2"></i> مكتبة الصوتيات الشاملة
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-                    <div onclick="switchTab('read')" class="glass-card p-8 hover:shadow-xl hover:-translate-y-1 transition cursor-pointer group">
-                        <div class="w-16 h-16 mx-auto bg-dark-800 rounded-full flex items-center justify-center text-accent-400 text-3xl mb-4 group-hover:bg-accent-500 group-hover:text-white transition-colors">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+                    <div onclick="switchTab('read')" class="glass-card p-6 hover:shadow-xl hover:-translate-y-1 transition cursor-pointer group">
+                        <div class="w-14 h-14 mx-auto bg-dark-800 rounded-full flex items-center justify-center text-accent-400 text-2xl mb-4 group-hover:bg-accent-500 group-hover:text-white transition-colors">
                             <i class="fa-solid fa-book-quran"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-2 text-white">قراءة القرآن</h3>
-                        <p class="text-gray-400 text-sm">تصفح السور بالرسم العثماني الدقيق مع خطوط واضحة ومريحة.</p>
+                        <h3 class="text-lg font-bold mb-2 text-white">قراءة القرآن</h3>
+                        <p class="text-gray-400 text-xs">تصفح السور بالرسم العثماني الدقيق مع خطوط واضحة ومريحة للعين ومناسبة لجميع الشاشات.</p>
                     </div>
                     
-                    <div onclick="switchTab('listen')" class="glass-card p-8 hover:shadow-xl hover:-translate-y-1 transition cursor-pointer group">
-                        <div class="w-16 h-16 mx-auto bg-dark-800 rounded-full flex items-center justify-center text-accent-400 text-3xl mb-4 group-hover:bg-accent-500 group-hover:text-white transition-colors">
+                    <div onclick="switchTab('listen')" class="glass-card p-6 hover:shadow-xl hover:-translate-y-1 transition cursor-pointer group">
+                        <div class="w-14 h-14 mx-auto bg-dark-800 rounded-full flex items-center justify-center text-accent-400 text-2xl mb-4 group-hover:bg-accent-500 group-hover:text-white transition-colors">
                             <i class="fa-solid fa-microphone-lines"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-2 text-white">أصوات القراء</h3>
-                        <p class="text-gray-400 text-sm">استمع لجميع سور القرآن بصوت عشرات الشيوخ والقراء المفضلين لديك.</p>
+                        <h3 class="text-lg font-bold mb-2 text-white">تلاوات وقوائم قراءة</h3>
+                        <p class="text-gray-400 text-xs">استمع للقرآن كاملاً بأصوات مئات الشيوخ والقراء المفضلين من خلال واجهة تشغيل حديثة وبلاي ليست منسقة.</p>
                     </div>
 
-                    <div onclick="switchTab('hadith')" class="glass-card p-8 hover:shadow-xl hover:-translate-y-1 transition cursor-pointer group">
-                        <div class="w-16 h-16 mx-auto bg-dark-800 rounded-full flex items-center justify-center text-accent-400 text-3xl mb-4 group-hover:bg-accent-500 group-hover:text-white transition-colors">
+                    <div onclick="switchTab('hadith')" class="glass-card p-6 hover:shadow-xl hover:-translate-y-1 transition cursor-pointer group">
+                        <div class="w-14 h-14 mx-auto bg-dark-800 rounded-full flex items-center justify-center text-accent-400 text-2xl mb-4 group-hover:bg-accent-500 group-hover:text-white transition-colors">
                             <i class="fa-solid fa-scroll"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-2 text-white">الأحاديث النبوية</h3>
-                        <p class="text-gray-400 text-sm">مقتطفات من صحيح السنة النبوية والأحاديث الجامعة لتنير دربك.</p>
+                        <h3 class="text-lg font-bold mb-2 text-white">الأحاديث النبوية</h3>
+                        <p class="text-gray-400 text-xs">قائمة منيرة وثرية من جوامع الكلم والسنن النبوية الصحيحة المأثورة عن رسول الله ﷺ.</p>
+                    </div>
+
+                    <div onclick="switchTab('faq')" class="glass-card p-6 hover:shadow-xl hover:-translate-y-1 transition cursor-pointer group">
+                        <div class="w-14 h-14 mx-auto bg-dark-800 rounded-full flex items-center justify-center text-accent-400 text-2xl mb-4 group-hover:bg-accent-500 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-circle-question"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2 text-white">أسئلة دينية فقهية</h3>
+                        <p class="text-gray-400 text-xs">بنك متكامل من الأسئلة والأجوبة الفقهية الهامة لتوعية المسلم في عباداته وحياته اليومية.</p>
                     </div>
                 </div>
             </section>
 
             <section id="tab-read" class="tab-content hide">
                 <div id="read-layout" class="flex flex-col lg:flex-row gap-6 view-list">
+                    <!-- Left Sidebar (List of Surahs) -->
                     <div id="surah-sidebar" class="w-full lg:w-1/4 glass-card rounded-2xl shadow-md overflow-hidden flex flex-col h-[75vh] lg:h-[80vh] transition-all duration-300">
                         <div class="p-4 bg-dark-800/80 text-white flex justify-between items-center shadow-md z-10 border-b border-accent-400/20">
                             <h3 class="font-bold text-lg"><i class="fa-solid fa-list-ul ml-2 text-accent-400"></i> فهرس السور</h3>
@@ -225,6 +267,7 @@
                         </div>
                     </div>
 
+                    <!-- Right Main Reading Area -->
                     <div id="reading-area" class="w-full lg:w-3/4 hidden lg:flex glass-card rounded-2xl shadow-md flex-col relative min-h-[75vh] lg:h-[80vh] transition-all duration-300">
                         <div id="read-header" class="bg-dark-800/60 border-b border-accent-400/20 p-4 lg:p-6 text-center sticky top-0 z-10 hidden shadow-sm rounded-t-2xl flex-col sm:flex-row items-center justify-between gap-4">
                             <button onclick="backToSurahList()" class="lg:hidden bg-dark-700 text-accent-400 hover:bg-dark-600 border border-accent-400/30 font-bold py-2 px-4 rounded-xl shadow-sm transition flex items-center whitespace-nowrap">
@@ -235,7 +278,6 @@
                                 <h2 id="current-surah-name" class="text-3xl lg:text-4xl font-amiri font-bold text-accent-400 mb-1 drop-shadow-sm"></h2>
                                 <p id="current-surah-info" class="text-xs font-semibold text-gray-300 bg-dark-800 inline-block px-4 py-1.5 rounded-full border border-gray-700 shadow-inner"></p>
                             </div>
-                            
                             <div class="w-[90px] hidden sm:block lg:hidden"></div>
                         </div>
                         
@@ -257,75 +299,182 @@
             </section>
 
             <section id="tab-listen" class="tab-content hide">
-                <div class="glass-card rounded-2xl shadow-md p-6 mb-8">
+                
+                <!-- Reciters Selection View (Grid) -->
+                <div id="reciters-selection-container" class="glass-card rounded-2xl shadow-md p-6 mb-8">
                     <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-gray-700 pb-6">
                         <div>
-                            <h2 class="text-2xl font-bold text-accent-400 border-r-4 border-accent-500 pr-3">المكتبة الصوتية</h2>
-                            <p class="text-gray-400 text-sm mt-1 pr-4">استمع للقرآن الكريم بأصوات مئات القراء (جميع السور متاحة)</p>
+                            <h2 class="text-2xl font-bold text-accent-400 border-r-4 border-accent-500 pr-3">المكتبة الصوتية الإسلامية</h2>
+                            <p class="text-gray-400 text-sm mt-1 pr-4">اضغط على القارئ المفضل لديك لفتح قائمة السور الكاملة وتشغيلها فوراً</p>
                         </div>
                         <div class="relative w-full md:w-96">
-                            <input type="text" id="search-reciter" placeholder="ابحث عن اسم القارئ (مثل: السديس)..." class="w-full pl-4 pr-10 py-3 rounded-xl bg-dark-700 border border-gray-600 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-500/30 text-white placeholder-gray-400 shadow-sm transition">
+                            <input type="text" id="search-reciter" placeholder="ابحث عن اسم القارئ (مثل: المنشاوي)..." class="w-full pl-4 pr-10 py-3 rounded-xl bg-dark-700 border border-gray-600 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-500/30 text-white placeholder-gray-400 shadow-sm transition">
                             <i class="fa-solid fa-magnifying-glass absolute right-4 top-4 text-gray-400"></i>
                         </div>
                     </div>
                     
                     <div class="loader" id="reciters-loader"></div>
-                    
                     <div id="reciters-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
                 </div>
+
+                <div id="reciter-playlist-view" class="hide flex flex-col gap-6">
+                    <!-- Dashboard Header Card [Modified to match image_8071de.png] -->
+                    <div class="glass-card p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div class="flex items-center justify-between w-full">
+                            <!-- Reciter Name & Subtitle on the Right -->
+                            <div class="text-right">
+                                <h2 id="playlist-reciter-title" class="text-2xl md:text-3xl font-bold text-white font-cairo"></h2>
+                                <p id="playlist-reciter-sub" class="text-xs text-gray-400 mt-1"></p>
+                            </div>
+                            <!-- Return button on the Left with reversed arrow to match image -->
+                            <button onclick="backToRecitersList()" class="bg-[#1E293B]/80 text-accent-400 hover:bg-dark-600 border border-accent-400/20 font-bold py-2.5 px-6 rounded-xl shadow-sm transition flex items-center whitespace-nowrap text-sm gap-2">
+                                العودة للمكتبة <i class="fa-solid fa-arrow-left text-xs"></i> 
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Equalizer Visualizer Centered below header -->
+                    <div id="equalizer-visualizer" class="flex items-end justify-center h-10 w-full mb-2">
+                        <span class="equalizer-bar"></span>
+                        <span class="equalizer-bar"></span>
+                        <span class="equalizer-bar"></span>
+                        <span class="equalizer-bar"></span>
+                        <span class="equalizer-bar"></span>
+                    </div>
+
+                    <!-- Layout: Playlist Sidebar & Main Audio Controller -->
+                    <div id="playlist-layout" class="flex flex-col lg:flex-row gap-6 view-list">
+                        <!-- Sidebar: Surah Items -->
+                        <div id="playlist-sidebar-area" class="w-full lg:w-1/3 glass-card rounded-2xl shadow-md overflow-hidden flex flex-col h-[55vh] lg:h-[65vh]">
+                            <div class="p-4 bg-dark-800/80 text-white flex justify-between items-center shadow-md border-b border-accent-400/20">
+                                <h3 class="font-bold text-sm sm:text-base"><i class="fa-solid fa-list-music ml-2 text-accent-400"></i> سور القارئ المتوفرة</h3>
+                            </div>
+                            <div class="p-3 bg-dark-800/40 border-b border-gray-700">
+                                <div class="relative">
+                                    <input type="text" id="search-playlist-surah" placeholder="ابحث عن سورة لدى هذا القارئ..." class="w-full px-4 py-3 pr-10 rounded-xl bg-dark-700 border border-gray-600 focus:outline-none focus:border-accent-500 focus:ring-1 focus:ring-accent-500 text-white placeholder-gray-400 shadow-sm text-xs">
+                                    <i class="fa-solid fa-search absolute right-4 top-3.5 text-gray-400"></i>
+                                </div>
+                            </div>
+                            <div id="playlist-surah-list-container" class="overflow-y-auto flex-grow p-3 space-y-2 custom-scrollbar">
+                                <!-- Surahs for reciter will be loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- Main Audio Controller Desk -->
+                        <div id="playlist-player-area" class="w-full lg:w-2/3 glass-card rounded-2xl shadow-md flex flex-col p-6 sm:p-10 justify-between items-center relative min-h-[45vh] lg:h-[65vh]">
+                            
+                            <!-- Mobile Navigation for Playlist (Switches between list & player) -->
+                            <button onclick="backToPlaylistList()" class="lg:hidden absolute top-4 right-4 bg-dark-700 text-accent-400 hover:bg-dark-600 border border-accent-400/30 font-bold py-1.5 px-3 rounded-xl shadow-sm transition flex items-center text-xs">
+                                <i class="fa-solid fa-list ml-1.5"></i> قائمة السور
+                            </button>
+
+                            <!-- Player Branding/Disc -->
+                            <div class="flex flex-col items-center justify-center text-center mt-6 lg:mt-10">
+                                <div id="disc-container" class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-tr from-accent-600 via-dark-800 to-accent-400 p-1 shadow-2xl relative flex items-center justify-center mb-6">
+                                    <div class="w-full h-full rounded-full bg-dark-900 flex items-center justify-center relative overflow-hidden">
+                                        <i class="fa-solid fa-compact-disc text-6xl md:text-7xl text-accent-400/40 animate-spin" style="animation-duration: 8s;"></i>
+                                        <div class="absolute w-8 h-8 rounded-full bg-dark-900 border-2 border-dark-800 shadow-inner"></div>
+                                    </div>
+                                </div>
+                                <h3 id="current-playing-title" class="text-2xl font-bold font-amiri text-accent-400 mb-1">الرجاء اختيار سورة</h3>
+                                <p id="current-playing-reciter" class="text-sm text-gray-400">ابدأ بتشغيل سورة من القائمة الجانبية</p>
+                            </div>
+
+                            <!-- Interactive Custom Audio Scrubber and Controls -->
+                            <div class="w-full max-w-lg flex flex-col gap-4 mt-6">
+                                <!-- Progress Slider & Times -->
+                                <div class="flex flex-col gap-2">
+                                    <input type="range" id="audio-scrubber" min="0" max="100" value="0" class="w-full h-1 bg-dark-700 rounded-lg appearance-none cursor-pointer accent-accent-400 focus:outline-none">
+                                    <div class="flex justify-between text-xs text-gray-400">
+                                        <span id="player-time-elapsed">00:00</span>
+                                        <span id="player-time-total">00:00</span>
+                                    </div>
+                                </div>
+
+                                <!-- Audio Button Panel -->
+                                <div class="flex items-center justify-center gap-6 md:gap-8">
+                                    <!-- Skip Previous Button -->
+                                    <button onclick="playPrevSurah()" title="السورة السابقة" class="text-gray-400 hover:text-white text-xl p-3 transition-colors">
+                                        <i class="fa-solid fa-backward-step"></i>
+                                    </button>
+
+                                    <!-- Main Play/Pause Big Button -->
+                                    <button id="player-play-btn" onclick="togglePlayState()" title="تشغيل / إيقاف مؤقت" class="w-16 h-16 rounded-full bg-accent-500 hover:bg-accent-600 text-white flex items-center justify-center text-2xl transition shadow-lg transform hover:scale-105">
+                                        <i id="play-btn-icon" class="fa-solid fa-play"></i>
+                                    </button>
+
+                                    <!-- Skip Next Button -->
+                                    <button onclick="playNextSurah()" title="السورة التالية" class="text-gray-400 hover:text-white text-xl p-3 transition-colors">
+                                        <i class="fa-solid fa-forward-step"></i>
+                                    </button>
+                                </div>
+
+                                <div class="flex items-center justify-between border-t border-gray-800 pt-4 mt-2">
+                                    <!-- Playback speed layout removed from here completely -->
+                                    <audio id="main-audio-player" class="hide">
+                                        <source src="" type="audio/mpeg">
+                                    </audio>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
             </section>
 
             <section id="tab-hadith" class="tab-content hide">
                 <div class="glass-card rounded-2xl shadow-md p-6 mb-8">
                     <h2 class="text-2xl font-bold text-accent-400 mb-2 border-r-4 border-accent-500 pr-3">الأحاديث النبوية الشريفة</h2>
-                    <p class="text-gray-400 text-sm mb-8 pr-4">مقتطفات من صحيح السنة وجوامع الكلم.</p>
+                    <p class="text-gray-400 text-sm mb-8 pr-4">مقتطفات من صحيح السنة وجوامع الكلم لتنوير دربك والاهتداء بهدي النبي ﷺ.</p>
                     
                     <div id="hadith-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+                </div>
+            </section>
+
+            <section id="tab-faq" class="tab-content hide">
+                <div class="glass-card rounded-2xl shadow-md p-6 sm:p-8 mb-8">
+                    
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 border-b border-gray-700 pb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-accent-400 border-r-4 border-accent-500 pr-3">الأسئلة الدينية والمسائل الفقهية</h2>
+                            <p class="text-gray-400 text-sm mt-1 pr-4">أجوبة دينية فقهية مبسطة مع الأدلة والقرائن لتسهيل فهم أمور الدين الحنيف.</p>
+                        </div>
+                        
+                        <!-- FAQ Search Bar -->
+                        <div class="relative w-full md:w-96">
+                            <input type="text" id="faq-search" oninput="filterFAQ()" placeholder="ابحث عن فتوى أو كلمة مفتاحية..." class="w-full pl-4 pr-10 py-3 rounded-xl bg-dark-700 border border-gray-600 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-500/30 text-white placeholder-gray-400 shadow-sm transition">
+                            <i class="fa-solid fa-magnifying-glass absolute right-4 top-4 text-gray-400"></i>
+                        </div>
+                    </div>
+
+                    <!-- Category Pills -->
+                    <div class="flex flex-wrap gap-2 mb-8" id="faq-categories">
+                        <button onclick="filterFAQByCategory('all')" class="faq-cat-btn bg-accent-500 text-white font-bold py-2 px-5 rounded-full text-xs transition-all shadow-md" data-category="all">الكل</button>
+                        <button onclick="filterFAQByCategory('creed')" class="faq-cat-btn bg-dark-800 text-gray-300 hover:text-white font-bold py-2 px-5 rounded-full text-xs transition-all border border-gray-700" data-category="creed">العقيدة</button>
+                        <button onclick="filterFAQByCategory('purity')" class="faq-cat-btn bg-dark-800 text-gray-300 hover:text-white font-bold py-2 px-5 rounded-full text-xs transition-all border border-gray-700" data-category="purity">الطهارة</button>
+                        <button onclick="filterFAQByCategory('prayer')" class="faq-cat-btn bg-dark-800 text-gray-300 hover:text-white font-bold py-2 px-5 rounded-full text-xs transition-all border border-gray-700" data-category="prayer">الصلاة</button>
+                        <button onclick="filterFAQByCategory('fasting')" class="faq-cat-btn bg-dark-800 text-gray-300 hover:text-white font-bold py-2 px-5 rounded-full text-xs transition-all border border-gray-700" data-category="fasting">الصيام</button>
+                        <button onclick="filterFAQByCategory('transactions')" class="faq-cat-btn bg-dark-800 text-gray-300 hover:text-white font-bold py-2 px-5 rounded-full text-xs transition-all border border-gray-700" data-category="transactions">الحياة اليومية والمعاملات</button>
+                    </div>
+
+                    <!-- FAQ Accordion Container -->
+                    <div id="faq-container" class="space-y-4"></div>
+                    
+                    <div id="faq-no-results" class="text-center py-10 hide">
+                        <i class="fa-regular fa-face-frown text-5xl text-gray-500 mb-3"></i>
+                        <p class="text-gray-400">عذراً، لم نعثر على أي فتاوى تطابق بحثك الحالي.</p>
+                    </div>
                 </div>
             </section>
 
         </div>
     </main>
 
-    <div id="audio-player-container" class="fixed bottom-0 left-0 right-0 bg-dark-800/90 backdrop-blur-lg text-white shadow-[0_-10px_40px_rgba(0,0,0,0.5)] transform translate-y-full transition-transform duration-500 z-50 rounded-t-3xl border-t border-accent-400/40">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-4 w-full md:w-1/3">
-                <div class="bg-dark-900 p-4 rounded-full text-accent-400 border border-accent-400/30 shadow-inner">
-                    <i class="fa-solid fa-headphones-simple text-2xl"></i>
-                </div>
-                <div class="overflow-hidden">
-                    <h4 id="player-reciter-name" class="font-bold text-lg truncate">اسم القارئ</h4>
-                    <p id="player-surah-name" class="text-sm text-gray-300 truncate font-semibold">اختر السورة للبدء</p>
-                </div>
-            </div>
-            
-            <div class="w-full md:w-1/3 flex justify-center items-center">
-                <audio id="main-audio" controls class="w-full max-w-md h-12 outline-none rounded-full bg-dark-900 shadow-md">
-                    <source src="" type="audio/mpeg">
-                    متصفحك لا يدعم مشغل الصوت.
-                </audio>
-            </div>
-            
-            <div class="w-full md:w-1/3 flex justify-end items-center gap-2 sm:gap-3">
-                <div class="relative w-full md:w-auto flex-grow">
-                    <select id="audio-surah-select" class="appearance-none bg-dark-700 text-white border border-gray-600 rounded-xl py-3 px-4 pr-10 focus:outline-none focus:ring-2 focus:ring-accent-400 text-sm font-semibold w-full shadow-inner cursor-pointer transition hover:bg-dark-600">
-                        <option value="">اختر السورة...</option>
-                    </select>
-                    <div class="absolute left-3 top-0 bottom-0 flex items-center pointer-events-none">
-                        <i class="fa-solid fa-chevron-down text-accent-400"></i>
-                    </div>
-                </div>
-                <button onclick="closePlayer()" class="text-white hover:text-white bg-red-600/80 hover:bg-red-700 p-3 rounded-xl transition w-12 h-12 flex items-center justify-center shadow-md flex-shrink-0">
-                    <i class="fa-solid fa-xmark text-xl"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
     <footer class="bg-dark-800/50 text-gray-400 py-6 text-center mt-auto border-t border-gray-800/50 mt-12">
         <div class="max-w-7xl mx-auto px-4">
             <h3 class="text-white font-amiri text-xl mb-2 text-accent-400">جنة التلاوة | النسخة الرقمية</h3>
-            <p class="text-sm"> صدقة جارية لي ولكم ولجميع اموات المسلمين </p>
+            <p class="text-sm"> صدقة جارية لي ولكم ولجميع أموات المسلمين </p>
         </div>
     </footer>
 
@@ -333,24 +482,94 @@
         // --- State Variables ---
         let surahsData = [];
         let recitersData = [];
-        let currentAudioReciter = null;
         let surahNamesArabic = []; 
+        let selectedCategory = 'all';
 
-        const ahadithData = [
-            { text: "عَنْ عُمَرَ بْنِ الْخَطَّابِ رَضِيَ اللَّهُ عَنْهُ قَالَ: سَمِعْتُ رَسُولَ اللَّهِ ﷺ يَقُولُ: «إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى...»", narrator: "رواه البخاري ومسلم" },
-            { text: "عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ، أَنَّ رَسُولَ اللَّهِ ﷺ قَالَ: «مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ، وَمَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيُكْرِمْ جَارَهُ...»", narrator: "رواه البخاري ومسلم" },
-            { text: "عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ ﷺ: «مِنْ حُسْنِ إِسْلامِ الْمَرْءِ تَرْكُهُ مَا لا يَعْنِيهِ».", narrator: "رواه الترمذي وغيره" },
-            { text: "عَنْ أَنَسٍ رَضِيَ اللَّهُ عَنْهُ عَنِ النَّبِيِّ ﷺ قَالَ: «لا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ».", narrator: "رواه البخاري ومسلم" },
-            { text: "قَالَ رَسُولُ اللَّهِ ﷺ: «الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ، وَالْمُهَاجِرُ مَنْ هَجَرَ مَا نَهَى اللَّهُ عَنْهُ».", narrator: "رواه البخاري" },
-            { text: "قَالَ رَسُولُ اللَّهِ ﷺ: «خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ».", narrator: "رواه البخاري" },
-            { text: "قَالَ رَسُولُ اللَّهِ ﷺ: «كَلِمَتَانِ خَفِيفَتَانِ عَلَى اللِّسَانِ، ثَقِيلَتَانِ فِي الْمِيزَانِ، حَبِيبَتَانِ إِلَى الرَّحْمَنِ: سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ الْعَظِيمِ».", narrator: "رواه البخاري ومسلم" },
-            { text: "قَالَ رَسُولُ اللَّهِ ﷺ: «اتَّقِ اللَّهِ حَيْثُمَا كُنْتَ، وَأَتْبِعِ السَّيِّئَةَ الْحَسَنَةَ تَمْحُهَا، وَخَالِقِ النَّاسَ بِخُلُقٍ حَسَنٍ».", narrator: "رواه الترمذي" },
-            { text: "قَالَ رَسُولُ اللَّهِ ﷺ: «مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا، سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ».", narrator: "رواه مسلم" },
-            { text: "قَالَ رَسُولُ اللَّهِ ﷺ: «الدِّينُ النَّصِيحَةُ» قُلْنَا: لِمَنْ؟ قَالَ: «لِلَّهِ وَلِكِتَابِهِ وَلِرَسُولِهِ وَلأَئِمَّةِ الْمُسْلِمِينَ وَعَامَّتِهِمْ».", narrator: "رواه مسلم" }
+        // Reciters Playlist Active States
+        let currentPlaylistReciter = null;
+        let playlistSurahList = [];
+        let currentPlaylistIndex = -1;
+
+        // --- Rich and Structured Islamic Questions Data ---
+        const faqData = [
+            {
+                id: 1,
+                category: "creed",
+                question: "ما هو تعريف التوحيد وما هي أنواعه الثلاثة؟",
+                answer: "التوحيد هو إفراد الله سبحانه وتعالى بما يختص به من الربوبية، والألوهية، والأسماء والصفات. وأنواعه ثلاثة: أولاً: توحيد الربوبية وهو إفراد الله بأفعاله كالخلق والرزق والإحياء والإماتة. ثانياً: توحيد الألوهية وهو إفراد الله بأفعال العباد كالصلاة والدعاء والذبح والنذر. ثالثاً: توحيد الأسماء والصفات وهو إثبات ما أثبته الله لنفسه أو أثبته له رسوله من غير تحريف ولا تعطيل ولا تكييف ولا تمثيل."
+            },
+            {
+                id: 2,
+                category: "creed",
+                question: "ما الفرق بين الشرك الأكبر والشرك الأصغر؟",
+                answer: "الشرك الأكبر هو مخرج من ملة الإسلام، ويحبط جميع الأعمال، وصاحبه مخلد في النار إن مات عليه ولم يتب، كدعاء غير الله أو الذبح لغيره. أما الشرك الأصغر فلا يخرج من الملة ولكنه من كبائر الذنوب وينقص الإيمان، كالرياء اليسير أو الحلف بغير الله دون قصد تعظيمه كتعظيم الله."
+            },
+            {
+                id: 3,
+                category: "purity",
+                question: "هل خروج الدم الرعاف أو الجروح البسيطة ينقض الوضوء؟",
+                answer: "الراجح من أقوال أهل العلم أن خروج الدم اليسير من غير السبيلين (كالرعاف أو الجرح البسيط) لا ينقض الوضوء مطلقاً، وتجزيء طهارة المصلي ما لم يخرج الدم الفاحش الكثير جداً الذي يخرج عن حد العادة، والأحوط غسل الدم عن الجسم والثوب لنجاسته عند جمهور العلماء."
+            },
+            {
+                id: 4,
+                category: "purity",
+                question: "هل المسح على الجوارب الخفيفة أو الشفافة جائز؟",
+                answer: "يجوز المسح على الجوارب (الشرابات) طالما كانت ساترة لمحل الفرض (الكعبين) وثابتة على القدمين، ويجوز المسح على الجوارب العادية المعاصرة وإن لم تكن ثخينة جداً على تيسير فقهي لجمهور من العلماء المعاصرين تخفيفاً على المسلمين، بشرط لبسها على طهارة تامة (وضوء غسل فيه القدمين)."
+            },
+            {
+                id: 5,
+                category: "prayer",
+                question: "ما هو حكم صلاة المنفرد خلف الصف في صلاة الجماعة؟",
+                answer: "إذا دخل المصلي المسجد ووجد الصف مكتملًا، فالأفضل والأصح أن يقف عن يمين الإمام إن أمكن، فإن لم يتمكن وقف منفردًا خلف الصف وتصح صلاته للحاجة والضرورة، وهو مذهب الحنفية والمالكية والشافعية وقول قوي للحنابلة؛ تيسيراً وتفادياً لفوات صلاة الجماعة."
+            },
+            {
+                id: 6,
+                category: "prayer",
+                question: "ماذا يفعل من شك في عدد الركعات أثناء الصلاة؟",
+                answer: "من شك في صلاته فلم يدرِ كم صلى ثلاثًا أم أربعًا مثلًا، فالواجب عليه هو البناء على اليقين وهو الأقل (أي يعتبرها ثلاثًا)، ثم يتم صلاته ويسجد سجدتين للسهو قبل التسليم. أما إذا كان الشك كثرة مفرطة تصل لحد الوسواس فإنه يعرض عنه ولا يلتفت إليه ويبني على الأكثر تجنباً للوسوسة والخلل."
+            },
+            {
+                id: 7,
+                category: "fasting",
+                question: "هل قطرة العين أو قطرة الأذن تفسد الصيام؟",
+                answer: "قطرة العين وقطرة الأذن لا تفطر الصائم على الراجح، لأن العين والأذن ليستا منفذاً طبيعياً معتاداً إلى الجوف (المعدة). وحتى لو شعر الصائم بطعم القطرة في حلقه، فإن ذلك لا يفسد صومه؛ لأنها لم دخلت من منفذ معتاد كالأنف أو الفم."
+            },
+            {
+                id: 8,
+                category: "fasting",
+                question: "ما حكم من أكل أو شرب ناسياً في نهار رمضان؟",
+                answer: "من أكل أو شرب ناسياً في نهار رمضان فصيامه صحيح وتام وليس عليه قضاء ولا كفارة، لقول النبي ﷺ: «مَنْ نَسِيَ وَهُوَ صَائِمٌ، فَأَكَلَ أَوْ شَرِبَ، فَلْيُتِمَّ صَوْمَهُ، فَإِنَّمَا أَطْعَمَهُ اللَّهُ وَسَقَاهُ» (متفق عليه)."
+            },
+            {
+                id: 9,
+                category: "transactions",
+                question: "ما حكم البيع بالتقسيط مع زيادة السعر عن البيع النقدي؟",
+                answer: "بيع التقسيط جائز شرعاً باتفاق المذاهب الفقهية الأربعة، حتى لو كان سعر السلعة في التقسيط أعلى من سعرها في البيع النقدي الفوري، بشرط أن يتفق الطرفان على سعر محدد وفترة سداد واضحة قبل إتمام العقد، وألا تشتمل صيغة العقد على فرض غرامة مالية صريحة في حال التأخر عن سداد الأقساط (لأنه ربا)."
+            },
+            {
+                id: 10,
+                category: "transactions",
+                question: "هل تجوز قراءة القرآن الكريم من الهاتف بدون وضوء؟",
+                answer: "نعم، تجوز قراءة القرآن الكريم من شاشات الهواتف والأجهزة الإلكترونية بغير وضوء، لأن شاشات الهاتف لا ينطبق عليها حكم المصحف الورقي الحقيقي المطهر، فالكلام المعروض هو ذبذبات الكترونية تزول وتتغير. أما الجنب (من عليه جنابة) فالأفضل له ألا يقرأ حتى يغتسل."
+            }
         ];
 
+        // --- Static Data for Hadiths ---
+        const ahadithData = [
+            { text: "عَنْ عُمَرَ بْنِ الْخَطَّابِ رَضِيَ اللَّهُ عَنْهُ قَالَ: سَمِعْتُ رَسُولَ اللَّهِ ﷺ يَقُولُ: «إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى...»", narrator: "رواه البخاري ومسلم" },
+            { text: "عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ، أَنَّ رَسُولَ اللَّهِ ﷺ قَالَ: «مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ، وَمَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيُكْرِمْ جَارَهُ...»", narrator: "رواه البخاري ومسلم" },
+            { text: "عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ ﷺ: «مِنْ حُسْنِ إِسْلامِ الْمَرْءِ تَرْكُهُ مَا لا يَعْنِيهِ».", narrator: "رواه الترمذي وغيره" },
+            { text: "عَنْ أَنَسٍ رَضِيَ اللَّهُ عَنْهُ عَنِ النَّبِيِّ ﷺ قَالَ: «لا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ».", narrator: "رواه البخاري ومسلم" },
+            { text: "قَالَ رَسُولُ اللَّهِ ﷺ: «الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ، وَالْمُهَاجِرُ مَنْ هَجَرَ مَا نَهَى اللَّهُ عَنْهُ».", narrator: "رواه البخاري" },
+            { text: "قَالَ رَسُولُ اللَّهِ ﷺ: «خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ».", narrator: "رواه البخاري" },
+            { text: "قَالَ رَسُولُ اللَّهِ ﷺ: «كَلِمَتَانِ خَفِيفَتَانِ عَلَى اللِّسَانِ، ثَقِيلَتَانِ فِي الْمِيزَانِ، حَبِيبَتَانِ إِلَى الرَّحْمَنِ: سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ الْعَظِيمِ».", narrator: "رواه البخاري ومسلم" },
+            { text: "قَالَ رَسُولُ اللَّهِ ﷺ: «اتَّقِ اللَّهِ حَيْثُمَا كُنْتَ، وَأَتْبِعِ السَّيِّئَةَ الْحَسَنَةَ تَمْحُهَا، وَخَالِقِ النَّاسَ بِخُلُقٍ حَسَنٍ».", narrator: "رواه الترمذي" },
+            { text: "قَالَ رَسُولُ اللَّهِ ﷺ: «مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا، سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ».", narrator: "رواه مسلم" },
+            { text: "قَالَ رَسُولُ اللَّهِ ﷺ: «الدِّينُ النَّصِيحَةُ» قُلْنَا: لِمَنْ؟ قَالَ: «لِلَّهِ وَلِكِتَابِهِ وَلِرَسُولِهِ وَلأَئِمَّةِ الْمُسْلِمِينَ وَعَامَّتِهِمْ».", narrator: "رواه مسلم" }
+        ];
+
+        // --- Core Navigation Module ---
         function switchTab(tabId) {
-            // تحديث ألوان الروابط العلوية
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 if(btn.dataset.target === tabId) {
                     btn.classList.add('text-accent-400', 'border-accent-400'); 
@@ -361,24 +580,30 @@
                 }
             });
 
-            // إخفاء جميع الأقسام وإظهار القسم المطلوب
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hide'));
             document.getElementById(`tab-${tabId}`).classList.remove('hide');
             document.getElementById('mobile-menu').classList.add('hidden');
 
-            // تحميل البيانات إذا لم تكن محملة
             if(tabId === 'read') {
                 document.getElementById('read-layout').className = 'flex flex-col lg:flex-row gap-6 view-list';
                 if(surahsData.length === 0) fetchSurahList();
             }
-            if(tabId === 'listen' && recitersData.length === 0) fetchRecitersList();
+            if(tabId === 'listen') {
+                if(recitersData.length === 0) {
+                    fetchRecitersList();
+                } else {
+                    backToRecitersList();
+                }
+            }
             if(tabId === 'hadith' && document.getElementById('hadith-grid').children.length === 0) renderAhadith();
+            if(tabId === 'faq') renderFAQ();
         }
 
         document.getElementById('mobile-menu-btn').addEventListener('click', () => {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         });
 
+        // --- Helper Helpers ---
         function toArabicDigits(num) {
             const arabicNumbers = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
             return num.toString().replace(/[0-9]/g, w => arabicNumbers[+w]);
@@ -386,16 +611,20 @@
 
         function normalizeArabic(text) {
             if (!text) return '';
-            return text.replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/[\u064B-\u065F\u0670]/g, '').toLowerCase();
+            return text.replace(/[أإآ]/g, 'ا')
+                       .replace(/ة/g, 'ه')
+                       .replace(/ى/g, 'ي')
+                       .replace(/[\u064B-\u065F\u0670]/g, '')
+                       .toLowerCase().trim();
         }
 
+        // --- Quran Text Reader Engine ---
         async function fetchSurahList() {
             try {
                 const response = await fetch('https://api.alquran.cloud/v1/surah');
                 const data = await response.json();
                 surahsData = data.data;
                 surahNamesArabic = surahsData.map(s => ({ id: s.number, name: s.name }));
-                populateAudioSurahDropdown();
                 document.getElementById('surah-list-loader').classList.add('hide');
                 renderSurahList(surahsData);
             } catch (error) {
@@ -448,7 +677,7 @@
                 let contentHTML = '';
                 data.data.ayahs.forEach(ayah => {
                     let text = ayah.text;
-                    if(id !== 1 && ayah.numberInSurah === 1) text = text.replace('بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ', '').trim();
+                    if(id !== 1 && ayah.numberInSurah === 1) text = text.replace('بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ', '').trim();
                     contentHTML += `<span class="hover:text-accent-400 transition-colors">${text}</span> <span class="ayah-number">${toArabicDigits(ayah.numberInSurah)}</span> `;
                 });
                 document.getElementById('quran-content').innerHTML = contentHTML;
@@ -463,6 +692,7 @@
             document.getElementById('read-layout').className = 'flex flex-col lg:flex-row gap-6 view-list';
         }
 
+        // --- Quran Audio Library Core ---
         async function fetchRecitersList() {
             try {
                 const response = await fetch('https://www.mp3quran.net/api/v3/reciters?language=ar');
@@ -483,21 +713,21 @@
             reciters.forEach(reciter => {
                 const moshaf = reciter.moshaf && reciter.moshaf.length > 0 ? reciter.moshaf[0] : null;
                 const card = document.createElement('div');
-                card.className = 'glass-card p-6 hover:shadow-lg hover:border-accent-400 transition-all duration-300 group cursor-pointer text-center relative overflow-hidden flex flex-col justify-between h-full';
+                card.className = 'glass-card p-6 hover:shadow-lg hover:border-accent-400 transition-all duration-300 group cursor-pointer text-center relative overflow-hidden flex flex-col justify-between h-full bg-dark-800/20';
                 card.innerHTML = `
                     <div>
-                        <div class="w-20 h-20 mx-auto bg-dark-800 text-accent-400 rounded-full flex items-center justify-center text-3xl mb-4 group-hover:scale-110 group-hover:bg-accent-500 group-hover:text-white transition-transform">
+                        <div class="w-16 h-16 mx-auto bg-dark-800 text-accent-400 rounded-full flex items-center justify-center text-2xl mb-4 group-hover:scale-110 group-hover:bg-accent-500 group-hover:text-white transition-transform">
                             <i class="fa-solid fa-microphone"></i>
                         </div>
                         <h3 class="font-bold text-gray-200 mb-2 line-clamp-2 leading-snug">${reciter.name}</h3>
-                        <p class="text-xs text-gray-400 mb-4 bg-dark-800 inline-block px-3 py-1 rounded-full border border-gray-700">${moshaf ? moshaf.name : 'تلاوة'}</p>
+                        <p class="text-[10px] sm:text-xs text-gray-400 mb-4 bg-dark-800 inline-block px-3 py-1 rounded-full border border-gray-700">${moshaf ? moshaf.name : 'تلاوة'}</p>
                     </div>
-                    <button class="bg-dark-800 text-accent-400 w-full py-2.5 rounded-xl text-sm font-bold group-hover:bg-accent-500 group-hover:text-white transition mt-auto shadow-sm border border-accent-400/30">
-                        <i class="fa-solid fa-play ml-2"></i> استماع الآن
+                    <button class="bg-dark-800 text-accent-400 w-full py-2.5 rounded-xl text-xs font-bold group-hover:bg-accent-500 group-hover:text-white transition mt-auto shadow-sm border border-accent-400/30">
+                        <i class="fa-solid fa-folder-open ml-1.5"></i> فتح البلاي ليست
                     </button>
                 `;
                 card.onclick = () => {
-                    if(moshaf) openAudioPlayer(reciter, moshaf);
+                    if(moshaf) openReciterPlaylist(reciter, moshaf);
                     else showMessage("عذراً، التلاوات غير متوفرة حالياً لهذا القارئ.");
                 };
                 grid.appendChild(card);
@@ -509,132 +739,222 @@
             renderRecitersList(recitersData.filter(r => normalizeArabic(r.name).includes(term)));
         });
 
-        function populateAudioSurahDropdown() {
-            const select = document.getElementById('audio-surah-select');
-            select.innerHTML = '<option value="">اختر السورة للتشغيل...</option>';
-            surahNamesArabic.forEach(s => {
-                select.appendChild(new Option(`${s.id}. ${s.name}`, s.id));
+        // --- Reciter Playlist Engine ---
+        function openReciterPlaylist(reciter, moshaf) {
+            currentPlaylistReciter = {
+                name: reciter.name,
+                server: moshaf.server.endsWith('/') ? moshaf.server : moshaf.server + '/',
+                surahs: moshaf.surah_list ? moshaf.surah_list.split(',').map(Number) : []
+            };
+
+            document.getElementById('reciters-selection-container').classList.add('hide');
+            document.getElementById('reciter-playlist-view').classList.remove('hide');
+            document.getElementById('playlist-layout').className = 'flex flex-col lg:flex-row gap-6 view-list';
+
+            document.getElementById('playlist-reciter-title').innerText = reciter.name;
+            document.getElementById('playlist-reciter-sub').innerText = `${moshaf.name} • ${currentPlaylistReciter.surahs.length} سورة متوفرة`;
+
+            document.getElementById('current-playing-title').innerText = "اختر سورة للبدء بالاستماع";
+            document.getElementById('current-playing-reciter').innerText = reciter.name;
+            resetScrubberUI();
+
+            const audio = document.getElementById('main-audio-player');
+            audio.pause();
+            audio.src = "";
+            setPlayStateIcon(false);
+
+            renderPlaylistSurahItems(currentPlaylistReciter.surahs);
+        }
+
+        function backToRecitersList() {
+            const audio = document.getElementById('main-audio-player');
+            audio.pause();
+            audio.src = "";
+            setPlayStateIcon(false);
+
+            document.getElementById('reciter-playlist-view').classList.add('hide');
+            document.getElementById('reciters-selection-container').classList.remove('hide');
+        }
+
+        function backToPlaylistList() {
+            document.getElementById('playlist-layout').className = 'flex flex-col lg:flex-row gap-6 view-list';
+        }
+
+        document.getElementById('search-playlist-surah').addEventListener('input', e => {
+            if(!currentPlaylistReciter) return;
+            const term = normalizeArabic(e.target.value);
+            const filtered = currentPlaylistReciter.surahs.filter(num => {
+                const sName = getSurahNameById(num);
+                return normalizeArabic(sName).includes(term) || String(num).includes(term);
+            });
+            renderPlaylistSurahItems(filtered);
+        });
+
+        function getSurahNameById(id) {
+            const found = surahNamesArabic.find(s => s.id == id);
+            return found ? found.name : `سورة رقم ${id}`;
+        }
+
+        // --- Render Items with Play & Download Feature ---
+        function renderPlaylistSurahItems(surahIds) {
+            const container = document.getElementById('playlist-surah-list-container');
+            container.innerHTML = '';
+
+            if (surahIds.length === 0) {
+                container.innerHTML = '<p class="text-gray-400 text-center p-4 text-xs">لا توجد سور مطابقة لبحثك لدى هذا القارئ.</p>';
+                return;
+            }
+
+            surahIds.forEach(num => {
+                const sName = getSurahNameById(num);
+                const itemDiv = document.createElement('div');
+                itemDiv.id = `playlist-item-${num}`;
+                itemDiv.className = 'w-full text-right p-3 hover:bg-dark-700/80 rounded-xl transition border border-gray-800 flex items-center justify-between bg-dark-800/20';
+                
+                const formattedId = String(num).padStart(3, '0');
+                const fileUrl = `${currentPlaylistReciter.server}${formattedId}.mp3`;
+
+                itemDiv.innerHTML = `
+                    <div class="flex items-center cursor-pointer flex-grow" onclick="playSurahInPlaylist(${num})">
+                        <span class="w-8 h-8 rounded-full bg-dark-800 text-accent-400 flex items-center justify-center text-xs font-bold mr-2 ml-3">${num}</span>
+                        <span class="font-bold text-gray-300 hover:text-accent-400 transition text-sm">${sName}</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="playSurahInPlaylist(${num})" class="text-[11px] text-gray-400 hover:text-accent-400 transition flex items-center">
+                            <i class="fa-solid fa-play ml-1"></i> تشغيل
+                        </button>
+                        <a href="${fileUrl}" download="سورة_${sName}.mp3" target="_blank" class="text-[11px] text-emerald-400 hover:text-emerald-300 transition flex items-center border border-emerald-500/30 px-2 py-1 rounded-lg bg-emerald-500/5">
+                            <i class="fa-solid fa-download ml-1"></i> تحميل
+                        </a>
+                    </div>
+                `;
+                container.appendChild(itemDiv);
             });
         }
 
-        const FALLBACK_SERVERS = [
-            "https://server11.mp3quran.net/ahmed_ibrahim/",
-            "https://server11.mp3quran.net/maher/",
-            "https://server11.mp3quran.net/yasser/"
-        ];
+        // --- Custom Audio Player Operations ---
+        async function playSurahInPlaylist(surahId) {
+            if(!currentPlaylistReciter) return;
 
-        function openAudioPlayer(reciter, moshaf) {
-            let surahListArray = [];
-            if (moshaf.surah_list) {
-                surahListArray = moshaf.surah_list.split(',').map(id => id.trim());
-            }
-            
-            currentAudioReciter = {
-                name: reciter.name,
-                originalServer: moshaf.server,
-                currentServer: moshaf.server,
-                surahList: surahListArray
-            };
-            
-            document.getElementById('player-reciter-name').innerText = reciter.name;
-            document.getElementById('player-surah-name').innerText = "اختر السورة للاستماع";
-            
-            const select = document.getElementById('audio-surah-select');
-            for (let i = 0; i < select.options.length; i++) {
-                const opt = select.options[i];
-                if (opt.value === "") continue;
-                opt.disabled = false;
-                opt.text = opt.text.replace(' (غير متوفرة)', '');
-            }
+            document.querySelectorAll('[id^="playlist-item-"]').forEach(el => {
+                el.classList.remove('border-accent-500', 'bg-accent-500/10');
+            });
+            const activeBtn = document.getElementById(`playlist-item-${surahId}`);
+            if(activeBtn) activeBtn.classList.add('border-accent-500', 'bg-accent-500/10');
 
-            select.value = "";
-            const audioEl = document.getElementById('main-audio');
-            audioEl.pause();
-            audioEl.src = "";
+            playlistSurahList = currentPlaylistReciter.surahs;
+            currentPlaylistIndex = playlistSurahList.indexOf(surahId);
 
-            document.getElementById('audio-player-container').classList.remove('translate-y-full');
+            const sName = getSurahNameById(surahId);
+            document.getElementById('current-playing-title').innerText = `سورة ${sName}`;
+            document.getElementById('current-playing-reciter').innerText = `بصوت القارئ ${currentPlaylistReciter.name}`;
+
+            document.getElementById('playlist-layout').className = 'flex flex-col lg:flex-row gap-6 view-playlist';
+
+            const formattedId = String(surahId).padStart(3, '0');
+            const fileUrl = `${currentPlaylistReciter.server}${formattedId}.mp3`;
             
-            let firstSurah = "1";
-            if(surahNamesArabic.find(s => s.id == 1)) {
-                select.value = firstSurah;
-                playAudioForSurah(firstSurah);
-            } else if(currentAudioReciter.surahList.length > 0) {
-                select.value = currentAudioReciter.surahList[0];
-                playAudioForSurah(currentAudioReciter.surahList[0]);
+            const audio = document.getElementById('main-audio-player');
+            audio.pause();
+            audio.src = fileUrl;
+            audio.load();
+
+            setPlayStateIcon(true);
+            document.getElementById('equalizer-visualizer').classList.add('equalizer-active');
+
+            try {
+                await audio.play();
+            } catch(err) {
+                console.warn("Autoplay block or missing audio file", err);
+                showMessage("عذراً، تعذر تشغيل السورة تلقائياً، اضغط تشغيل.");
+                document.getElementById('equalizer-visualizer').classList.remove('equalizer-active');
+                setPlayStateIcon(false);
             }
         }
 
-        function closePlayer() {
-            document.getElementById('audio-player-container').classList.add('translate-y-full');
-            document.getElementById('main-audio').pause();
-        }
+        const audioEl = document.getElementById('main-audio-player');
+        const scrubber = document.getElementById('audio-scrubber');
 
-        document.getElementById('audio-surah-select').addEventListener('change', e => {
-            if(e.target.value) playAudioForSurah(e.target.value);
+        audioEl.addEventListener('timeupdate', () => {
+            if (!isNaN(audioEl.duration)) {
+                const elapsed = audioEl.currentTime;
+                const duration = audioEl.duration;
+                scrubber.value = (elapsed / duration) * 100;
+
+                document.getElementById('player-time-elapsed').innerText = formatAudioTime(elapsed);
+                document.getElementById('player-time-total').innerText = formatAudioTime(duration);
+            }
         });
 
-        async function playAudioForSurah(surahId) {
-            if(!currentAudioReciter) return;
-            
-            const surahObj = surahNamesArabic.find(s => s.id == surahId);
-            document.getElementById('player-surah-name').innerText = `جاري التحميل... سورة ${surahObj ? surahObj.name : surahId}`;
-            
-            const formattedId = String(surahId).padStart(3, '0');
-            let serverUrl = currentAudioReciter.currentServer;
-            if(!serverUrl.endsWith('/')) serverUrl += '/';
-            
-            const audioEl = document.getElementById('main-audio');
-            const primarySrc = `${serverUrl}${formattedId}.mp3`;
-            
-            const tryPlay = async (url) => {
-                return new Promise((resolve, reject) => {
-                    audioEl.src = url;
-                    audioEl.load();
-                    
-                    const handleError = () => {
-                        audioEl.removeEventListener('error', handleError);
-                        reject(new Error(`Failed to load ${url}`));
-                    };
-                    audioEl.addEventListener('error', handleError, { once: true });
-                    
-                    audioEl.oncanplaythrough = () => {
-                        audioEl.removeEventListener('error', handleError);
-                        resolve();
-                    };
-                    
-                    setTimeout(() => {
-                        audioEl.removeEventListener('error', handleError);
-                        reject(new Error('Timeout'));
-                    }, 5000);
-                });
-            };
-            
-            try {
-                await tryPlay(primarySrc);
-                document.getElementById('player-surah-name').innerText = `سورة ${surahObj ? surahObj.name : surahId}`;
-                audioEl.play().catch(e => console.log("Auto-play prevented"));
-            } catch (error) {
-                console.warn(`Primary server failed for surah ${surahId}, trying fallbacks...`);
-                let fallbackSuccess = false;
-                for (let fallbackUrl of FALLBACK_SERVERS) {
-                    try {
-                        const testUrl = `${fallbackUrl}${formattedId}.mp3`;
-                        await tryPlay(testUrl);
-                        fallbackSuccess = true;
-                        document.getElementById('player-surah-name').innerText = `سورة ${surahObj ? surahObj.name : surahId}`;
-                        audioEl.play().catch(e => console.log("Auto-play prevented"));
-                        break;
-                    } catch (fbError) {
-                        console.warn(`Fallback ${fallbackUrl} failed`);
-                    }
+        scrubber.addEventListener('input', () => {
+            if (!isNaN(audioEl.duration)) {
+                audioEl.currentTime = (scrubber.value / 100) * audioEl.duration;
+            }
+        });
+
+        audioEl.addEventListener('ended', () => {
+            playNextSurah();
+        });
+
+        function formatAudioTime(seconds) {
+            if (isNaN(seconds)) return "00:00";
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function togglePlayState() {
+            if(!audioEl.src || audioEl.src.includes('null') || audioEl.src === window.location.href) {
+                if(playlistSurahList.length > 0) {
+                    playSurahInPlaylist(playlistSurahList[0]);
+                } else if(currentPlaylistReciter && currentPlaylistReciter.surahs.length > 0) {
+                    playSurahInPlaylist(currentPlaylistReciter.surahs[0]);
                 }
-                if (!fallbackSuccess) {
-                    document.getElementById('player-surah-name').innerText = `خطأ في تشغيل سورة ${surahObj ? surahObj.name : surahId}`;
-                    showMessage(`عذراً، لا يمكن تشغيل هذه السورة حالياً. حاول مرة أخرى لاحقاً.`);
-                }
+                return;
+            }
+
+            if (audioEl.paused) {
+                audioEl.play().catch(e => console.log(e));
+                setPlayStateIcon(true);
+                document.getElementById('equalizer-visualizer').classList.add('equalizer-active');
+            } else {
+                audioEl.pause();
+                setPlayStateIcon(false);
+                document.getElementById('equalizer-visualizer').classList.remove('equalizer-active');
             }
         }
 
+        function setPlayStateIcon(isPlaying) {
+            const icon = document.getElementById('play-btn-icon');
+            if(isPlaying) {
+                icon.className = "fa-solid fa-pause";
+            } else {
+                icon.className = "fa-solid fa-play";
+            }
+        }
+
+        function resetScrubberUI() {
+            scrubber.value = 0;
+            document.getElementById('player-time-elapsed').innerText = "00:00";
+            document.getElementById('player-time-total').innerText = "00:00";
+            document.getElementById('equalizer-visualizer').classList.remove('equalizer-active');
+        }
+
+        function playNextSurah() {
+            if(playlistSurahList.length === 0 || currentPlaylistIndex === -1) return;
+            let nextIndex = currentPlaylistIndex + 1;
+            if(nextIndex >= playlistSurahList.length) nextIndex = 0;
+            playSurahInPlaylist(playlistSurahList[nextIndex]);
+        }
+
+        function playPrevSurah() {
+            if(playlistSurahList.length === 0 || currentPlaylistIndex === -1) return;
+            let prevIndex = currentPlaylistIndex - 1;
+            if(prevIndex < 0) prevIndex = playlistSurahList.length - 1;
+            playSurahInPlaylist(playlistSurahList[prevIndex]);
+        }
+
+        // --- Hadith Render Engine ---
         function renderAhadith() {
             const grid = document.getElementById('hadith-grid');
             grid.innerHTML = '';
@@ -652,9 +972,94 @@
             });
         }
 
+        // --- Islamic Questions Accordion & Filter ---
+        function renderFAQ() {
+            const container = document.getElementById('faq-container');
+            container.innerHTML = '';
+
+            const searchTerm = normalizeArabic(document.getElementById('faq-search').value);
+            
+            const filtered = faqData.filter(item => {
+                const matchesCategory = (selectedCategory === 'all' || item.category === selectedCategory);
+                const matchesSearch = !searchTerm || 
+                                      normalizeArabic(item.question).includes(searchTerm) || 
+                                      normalizeArabic(item.answer).includes(searchTerm);
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                document.getElementById('faq-no-results').classList.remove('hide');
+                return;
+            } else {
+                document.getElementById('faq-no-results').classList.add('hide');
+            }
+
+            filtered.forEach(item => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'border border-gray-700/60 rounded-2xl bg-dark-800/30 overflow-hidden transition-all duration-300 shadow-sm';
+                
+                wrapper.innerHTML = `
+                    <button onclick="toggleFAQAccordion(this)" class="w-full flex items-center justify-between p-5 text-right font-bold text-gray-200 hover:text-accent-400 focus:outline-none transition-colors">
+                        <span class="text-base sm:text-lg pl-4 leading-relaxed">${item.question}</span>
+                        <span class="faq-icon-arrow text-accent-400 transition-transform duration-300 transform"><i class="fa-solid fa-chevron-down"></i></span>
+                    </button>
+                    <div class="faq-content max-h-0 opacity-0 overflow-hidden transition-all duration-500 ease-in-out bg-dark-900/40">
+                        <p class="p-5 text-gray-300 leading-relaxed text-sm sm:text-base border-t border-gray-700/50 text-justify">
+                            ${item.answer}
+                        </p>
+                    </div>
+                `;
+                container.appendChild(wrapper);
+            });
+        }
+
+        function toggleFAQAccordion(button) {
+            const wrapper = button.parentElement;
+            const content = wrapper.querySelector('.faq-content');
+            const arrow = button.querySelector('.faq-icon-arrow');
+            
+            const isCurrentlyOpen = !content.classList.contains('max-h-0');
+
+            document.querySelectorAll('.faq-content').forEach(el => {
+                el.classList.add('max-h-0', 'opacity-0');
+                el.style.maxHeight = null;
+            });
+            document.querySelectorAll('.faq-icon-arrow').forEach(el => {
+                el.classList.remove('rotate-180');
+            });
+            document.querySelectorAll('#faq-container > div').forEach(el => {
+                el.classList.remove('border-accent-400/40', 'bg-dark-800/60');
+            });
+
+            if (!isCurrentlyOpen) {
+                content.classList.remove('max-h-0', 'opacity-0');
+                content.style.maxHeight = content.scrollHeight + "px";
+                arrow.classList.add('rotate-180');
+                wrapper.classList.add('border-accent-400/40', 'bg-dark-800/60');
+            }
+        }
+
+        function filterFAQByCategory(cat) {
+            selectedCategory = cat;
+            
+            document.querySelectorAll('.faq-cat-btn').forEach(btn => {
+                if(btn.dataset.category === cat) {
+                    btn.className = 'faq-cat-btn bg-accent-500 text-white font-bold py-2 px-5 rounded-full text-xs transition-all shadow-md';
+                } else {
+                    btn.className = 'faq-cat-btn bg-dark-800 text-gray-300 hover:text-white font-bold py-2 px-5 rounded-full text-xs transition-all border border-gray-700';
+                }
+            });
+
+            renderFAQ();
+        }
+
+        function filterFAQ() {
+            renderFAQ();
+        }
+
         function showMessage(msg) {
             const div = document.createElement('div');
-            div.className = 'fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-dark-800 text-white px-6 py-3 rounded-full shadow-2xl z-[100] font-bold text-sm text-center border border-accent-400';
+            div.className = 'fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-dark-800 text-white px-6 py-3 rounded-full shadow-2xl z-[100] font-bold text-xs sm:text-sm text-center border border-accent-400';
             div.innerText = msg;
             document.body.appendChild(div);
             setTimeout(() => { div.style.opacity = '0'; div.style.transition = 'opacity 0.5s'; }, 2500);
